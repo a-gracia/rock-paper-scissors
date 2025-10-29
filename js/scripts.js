@@ -35,16 +35,13 @@ function playRound(humanChoice, computerChoice) {
   humanChoice = humanChoice.toLowerCase();
   // check who wins, log a message for the human and increment the score of the winner
   if (humanChoice === computerChoice) {
-    console.log("That's a draw");
   } else if (
     (humanChoice === "rock" && computerChoice === "scissors") ||
     (humanChoice === "paper" && computerChoice === "rock") ||
     (humanChoice === "scissors" && computerChoice === "paper")
   ) {
-    console.log("You won!");
     humanScore++;
   } else {
-    console.log("You lost!");
     computerScore++;
   }
 }
@@ -67,7 +64,11 @@ buttons.forEach((button) => {
     computerScoreDOM.textContent = computerScore;
 
     // Check and declare winner
-    if (humanScore + computerScore >= 5) {
+    if (
+      humanScore + computerScore >= 5 ||
+      humanScore >= 3 ||
+      computerScore >= 3
+    ) {
       // disable buttons
       buttons.forEach((button) => (button.disabled = true));
       // select winner paragraph
