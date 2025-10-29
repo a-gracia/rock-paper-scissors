@@ -49,23 +49,52 @@ function playRound(humanChoice, computerChoice) {
   }
 }
 
-// Create function playGame
-function playGame() {
-  // Loop 5 times
-  for (let i = 0; i < 5; i++) {
-    // Call the human choice function and store its value
-    let humanChoice = getHumanChoice();
-    // Call the computer choice function and store its value
+// Select all choice button nodes
+const buttons = document.querySelectorAll(".choices");
+// Add event listener for buttons
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    // Store human choice
+    let humanChoice = e.target.id;
+    // Store computer choice
     let computerChoice = getComputerChoice();
-    // Execute the play round function with the human and computer choices
+    // Play round
     playRound(humanChoice, computerChoice);
-  }
-  // after the loop, declare the winner
-  if (humanScore > computerScore) {
-    console.log("You won the game!");
-  } else if (humanScore < computerScore) {
-    console.log("You lost the game!");
-  } else {
-    console.log("No winner");
-  }
-}
+    // Update score in DOM
+    const humanScoreDOM = document.querySelector("#human-score");
+    humanScoreDOM.textContent = humanScore;
+    const computerScoreDOM = document.querySelector("#computer-score");
+    computerScoreDOM.textContent = computerScore;
+
+    // Check and declare winner
+    if (humanScore + computerScore >= 5) {
+      // disable buttons
+      buttons.forEach((button) => (button.disabled = true));
+      // select winner paragraph
+      const winnerPara = document.querySelector("#winner");
+      if (humanScore > computerScore) {
+        winnerPara.textContent = "You won the game!";
+      } else {
+        winnerPara.textContent = "You lost the game!";
+      }
+    }
+  });
+});
+
+// Select restart button
+const restartButton = document.querySelector("#restart");
+restartButton.addEventListener("click", () => {
+  // Enable buttons
+  buttons.forEach((button) => (button.disabled = false));
+  // Reset scores
+  humanScore = 0;
+  computerScore = 0;
+  // Update score in DOM
+  const humanScoreDOM = document.querySelector("#human-score");
+  humanScoreDOM.textContent = 0;
+  const computerScoreDOM = document.querySelector("#computer-score");
+  computerScoreDOM.textContent = 0;
+  // Clear winner
+  const winnerPara = document.querySelector("#winner");
+  winnerPara.textContent = "";
+});
